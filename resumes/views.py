@@ -81,7 +81,7 @@ llm = ChatOllama(model="gemma3:1b")
 # Pydantic parser for structured AI response
 parser = PydanticOutputParser(pydantic_object=BECheckResponse)
 
-def get_user_embeddings(user_ids):
+def get_user_by_embeddings(user_ids):
     """Retrieve education text for a list of user IDs."""
     resumes = Resumes.objects.filter(id__in=user_ids).values("id", "education","experience")
     return {
@@ -93,7 +93,7 @@ def get_user_embeddings(user_ids):
         }
 # ...existing code...
 
-def check_be_completion(request):
+def get_rows_by_prompt(request):
     """Check if users have completed a BE degree using Pydantic + Ollama."""
     try:
         user_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -105,9 +105,6 @@ def check_be_completion(request):
         user_data = get_user_embeddings(user_ids)
         results = {}
         print(parser.get_format_instructions())
-        
-        
-       
 
         for user_id, user_details in user_data.items():
             education = user_details["education"]
